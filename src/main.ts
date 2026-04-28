@@ -4,8 +4,9 @@ import { ShoppingCart } from './components/models/ShoppingCart';
 import { Buyer } from './components/models/Buyer';
 import { Api } from './components/base/Api';
 import { API_URL } from './utils/constants';
-import { ServerApi } from './components/communication/ServerAPI';
+import { ServerApi } from './components/communication/ServerApi';
 import { IOrderResultApi } from './types';
+import { apiProducts } from "./utils/data";
 
 // Проверка работы моделей данных
 const productsModel = new ProductCatalog();

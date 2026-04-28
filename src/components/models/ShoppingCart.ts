@@ -23,7 +23,7 @@ export class ShoppingCart {
     this.selectedProducts = [];
   }
 
-  getTotal(): number | null {
+  getTotal(): number {
     return this.selectedProducts.reduce((total, selectedProduct) => total + (selectedProduct.price || 0), 0);
   }
 

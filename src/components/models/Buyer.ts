@@ -1,5 +1,7 @@
 import { IBuyer, TPayment } from "../../types/index";
 
+type TBuyerErrors = Partial<Record<keyof IBuyer, string>>;
+
 export class Buyer {
   protected data: IBuyer;
 
@@ -41,18 +43,8 @@ export class Buyer {
     };
   }
 
-  validate(): {
-    payment: string;
-    address: string;
-    email: string;
-    phone: string;
-  } {
-    const errors = {
-      payment: "",
-      address: "",
-      email: "",
-      phone: "",
-    };
+  validate(): TBuyerErrors {
+    const errors: TBuyerErrors = {};
 
     if (!this.data.payment.trim()) {
       errors.payment = "Не выбран вид оплаты";
@@ -60,11 +52,9 @@ export class Buyer {
     if (!this.data.address.trim()) {
       errors.address = "Укажите адрес";
     }
-
     if (!this.data.email.trim()) {
       errors.email = "Укажите email";
     }
-
     if (!this.data.phone.trim()) {
       errors.phone = "Укажите телефон";
     }

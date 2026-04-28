@@ -1,5 +1,6 @@
 export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
 export type ApiPostMethods = "POST" | "PUT" | "DELETE";
+export type TPayment: 'card' | 'cash' | '';
 export type IOrderResponse = {
   id: string;
   total: number;

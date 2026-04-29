@@ -1,4 +1,3 @@
-import { Api } from '../base/Api';
 import { IApi, IOrderRequest, IOrderResponse, IOrderResultApi } from '../../types/index';
 
 export class ServerApi {
@@ -12,7 +11,7 @@ export class ServerApi {
     return this.api.get<IOrderResultApi>('/product/'); 
   }
 
-  async postOrder(orderRequest: IOrderRequest): Promise<TOrderResponse> {
+  async postOrder(orderRequest: IOrderRequest): Promise<IOrderResponse> {
     return this.api.post('/order/', orderRequest);
   }
 }

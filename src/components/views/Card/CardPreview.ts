@@ -8,7 +8,6 @@ export type TCardPreview = Pick<IProduct, 'image' | 'category' | 'description'>;
 
 export interface ICardActions {
   onClick?: (event: MouseEvent) => void;
-  onButtonClick?: (event: MouseEvent) => void;
 }
 
 export class CardPreview extends Card<TCardPreview> {

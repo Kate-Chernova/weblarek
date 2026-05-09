@@ -12,7 +12,6 @@ export class CardPreview extends Card<TCardPreview> {
   protected imageElement: HTMLImageElement;
   protected descriptionElement: HTMLElement;
   protected cardButton: HTMLButtonElement;
-  private currentProductId: string | null = null;
 
   constructor(container: HTMLElement, protected events: IEvents) {
     super(container);
@@ -23,9 +22,7 @@ export class CardPreview extends Card<TCardPreview> {
     this.cardButton = ensureElement<HTMLButtonElement>('.card__button', this.container);
 
     this.cardButton.addEventListener('click', () => {
-      if (this.currentProductId) {
-        this.events.emit('preview:toggle', { productId: this.currentProductId });
-      }
+      this.events.emit('preview:toggle');
     });
   }
 
@@ -56,10 +53,6 @@ export class CardPreview extends Card<TCardPreview> {
     this.cardButton.textContent = value;
   }
 
-  setCurrentProduct(id: string) {
-    this.currentProductId = id;
-  }
-
   setPurchaseOpportunity(isInShoppingCart: boolean, price: number | null) {
     if (price === null) {
       this.cardButtonText = 'Недоступно';
@@ -71,19 +64,5 @@ export class CardPreview extends Card<TCardPreview> {
       this.cardButtonText = 'Добавить в корзину';
       this.disabled = false;
     }
-  }
-
-  updateContent(data: {
-    title: string;
-    price: number | null;
-    image: string;
-    category: string;
-    description: string;
-  }) {
-    this.title = data.title;
-    this.price = data.price;
-    this.image = data.image;
-    this.category = data.category;
-    this.description = data.description;
   }
 }

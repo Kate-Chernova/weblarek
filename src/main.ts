@@ -19,14 +19,12 @@ import { OrderForm } from "./components/views/Form/OrderForm";
 import { ContactsForm } from "./components/views/Form/ContactsForm";
 import { Success } from "./components/views/Success";
 
-
 const events = new EventEmitter();
 const productsModel = new ProductCatalog(events);
 const shoppingCartModel = new ShoppingCart(events);
 const buyerModel = new Buyer(events);
 const apiModel = new Api(API_URL);
 const serverApiModel = new ServerApi(apiModel);
-
 
 const modal = new Modal(ensureElement("#modal-container"), events);
 const gallery = new Gallery(ensureElement(".gallery"));
@@ -37,7 +35,6 @@ const currentContactsForm = new ContactsForm(cloneTemplate("#contacts"), events)
 const success = new Success(cloneTemplate("#success"), events);
 const cardPreview = new CardPreview(cloneTemplate("#card-preview"), events);
 
-
 serverApiModel
   .getProducts()
   .then((result: IOrderResultApi) => {
@@ -47,7 +44,6 @@ serverApiModel
   .catch((error) => {
     console.error("Ошибка", error);
   });
-
 
 events.on("card-catalog:changed", () => {
   const items = productsModel.getProducts().map((item) => {
@@ -70,21 +66,19 @@ events.on("product:selected", () => {
 
   const isInShoppingCart = shoppingCartModel.checkSelectedProduct(selectedProduct.id);
 
-  cardPreview.updateContent({
-    title: selectedProduct.title,
-    price: selectedProduct.price,
-    image: selectedProduct.image,
-    category: selectedProduct.category,
-    description: selectedProduct.description,
-  });
-  cardPreview.setCurrentProduct(selectedProduct.id);
+  
+  cardPreview.title = selectedProduct.title;
+  cardPreview.price = selectedProduct.price;
+  cardPreview.image = selectedProduct.image;
+  cardPreview.category = selectedProduct.category;
+  cardPreview.description = selectedProduct.description;
   cardPreview.setPurchaseOpportunity(isInShoppingCart, selectedProduct.price);
 
   modal.content = cardPreview.render();
   modal.open();
 });
 
-events.on("preview:toggle", (data: { productId: string }) => {
+events.on("preview:toggle", () => {
   const selectedProduct = productsModel.getProduct();
   if (!selectedProduct) return;
 
@@ -98,7 +92,6 @@ events.on("preview:toggle", (data: { productId: string }) => {
 
   modal.close();
 });
-
 
 events.on("shopping-cart:changed", () => {
   header.counter = shoppingCartModel.getSelectedProductsAmount();
@@ -120,22 +113,18 @@ events.on("shopping-cart:changed", () => {
   basket.price = shoppingCartModel.getTotal();
 });
 
-
 events.on("shopping-cart:open", () => {
   modal.content = basket.render();
   modal.open();
 });
 
-
 events.on("shopping-cart:remove", (data: { id: string }) => {
   shoppingCartModel.deleteSelectedProduct(data.id);
 });
 
-
 events.on("order:open", () => {
   modal.content = currentOrderForm.render();
 });
-
 
 events.on("order:changed", (data: { field: string; value: string }) => {
   if (data.field === "payment") {
@@ -145,7 +134,6 @@ events.on("order:changed", (data: { field: string; value: string }) => {
   }
 });
 
-
 events.on("contacts:changed", (data: { field: string; value: string }) => {
   if (data.field === "email") {
     buyerModel.saveEmail(data.value);
@@ -154,19 +142,16 @@ events.on("contacts:changed", (data: { field: string; value: string }) => {
   }
 });
 
-
 events.on("buyer-data:changed", () => {
   const validation = buyerModel.validate();
   const buyerData = buyerModel.getData();
 
-  
   currentOrderForm.payment = buyerData.payment;
   currentOrderForm.address = buyerData.address;
   const orderValid = !validation.payment && !validation.address;
   currentOrderForm.valid = orderValid;
   currentOrderForm.errors = [validation.payment, validation.address].filter(Boolean);
 
- 
   currentContactsForm.email = buyerData.email;
   currentContactsForm.phone = buyerData.phone;
   const contactsValid = !validation.email && !validation.phone;
@@ -174,11 +159,9 @@ events.on("buyer-data:changed", () => {
   currentContactsForm.errors = [validation.email, validation.phone].filter(Boolean);
 });
 
-
 events.on("order:submit", () => {
   modal.content = currentContactsForm.render();
 });
-
 
 events.on("contacts:submit", () => {
   const orderData = {
@@ -199,7 +182,6 @@ events.on("contacts:submit", () => {
       console.error("Ошибка при оформлении заказа:", error);
     });
 });
-
 
 events.on("success:close", () => {
   modal.close();

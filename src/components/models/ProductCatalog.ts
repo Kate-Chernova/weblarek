@@ -1,34 +1,34 @@
-import { IProduct } from "../../types/index";
-import { IEvents } from "../base/Events";
+import { IProduct } from "../../types/index"; 
+import { IEvents } from "../base/Events"; 
 
-export class ProductCatalog {
-  protected products: IProduct[];
-  protected selectedProduct: IProduct | null;
+export class ProductCatalog { 
+  protected products: IProduct[]; 
+  protected selectedProduct: IProduct | null; 
 
-  constructor(protected events: IEvents) {
-    this.products = [];
-    this.selectedProduct = null;
-  }
+  constructor(protected events: IEvents) { 
+    this.products = []; 
+    this.selectedProduct = null; 
+  } 
 
-  saveProducts(products: IProduct[]) {
-    this.products = products;
-     this.events.emit('card-catalog:changed');
-  }
+  saveProducts(products: IProduct[]) { 
+    this.products = products; 
+    this.events.emit('card-catalog:changed'); 
+  } 
 
-  getProducts(): IProduct[] {
-    return this.products;
-  }
+  getProducts(): IProduct[] { 
+    return this.products; 
+  } 
 
-  getProductByID(id: string): IProduct | undefined {
-    return this.products.find((product) => product.id === id);
-  }
+  getProductByID(id: string): IProduct | undefined { 
+    return this.products.find((product) => product.id === id); 
+  } 
 
- saveProduct(product: IProduct) {
-    this.selectedProduct = product;
-    this.events.emit("product:selected", product);
-  }
+  saveProduct(product: IProduct) { 
+    this.selectedProduct = product; 
+    this.events.emit("product:selected"); 
+  } 
 
-  getProduct(): IProduct | null {
-    return this.selectedProduct;
-  }
+  getProduct(): IProduct | null { 
+    return this.selectedProduct; 
+  } 
 }
